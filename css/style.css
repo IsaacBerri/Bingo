@@ -64,16 +64,17 @@
 }
 
 .card h2 {
-	font-size: 18px;
+	font-size: 25px;
 	margin-top: 10px;
+	margin-bottom: 5px;
 	border-bottom: 1px solid black;
 	color: black;
 	text-align: center;
 }
 .containerNumber {
-	width: 150px;
-	height: 150px;
-	margin-top: 80px;
+	width: 200px;
+	height: 200px;
+	margin-top: 50px;
 	display: flex;
 	justify-content: center;
 	align-items: center;

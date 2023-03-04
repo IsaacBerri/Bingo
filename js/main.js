@@ -12,13 +12,16 @@ const cartonCpu = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 number.addEventListener("click", () => agregarNumero(generador()));
 
 function generador() {
-  const num = Math.floor(Math.random() * 90);
+  const num = Math.floor(Math.random() * (91 - 1) + 1);
   return num;
 }
 
 function numerosDeCartones(Array, carton) {
   for (let i = 0; i < Array.length; i++) {
-    const num = Math.floor(Math.random() * 90);
+    let num = Math.floor(Math.random() * (91 - 1) + 1);
+    while (Array.includes(num)) {
+      num = Math.floor(Math.random() * (91 - 1) + 1);
+    }
     Array[i] = num;
   }
   Array.map((numero) => {
@@ -39,6 +42,7 @@ function agregarNumero(numeroGenenado) {
   tacharNumeros(numeroGenenado);
   ganador(cartonPlayer, numeroGenenado, "Player");
   ganador(cartonCpu, numeroGenenado, "Cpu");
+  table.scrollTop = table.scrollHeight;
 }
 
 function tacharNumeros(numeroExistente) {
