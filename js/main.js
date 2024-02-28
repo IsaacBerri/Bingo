@@ -1,6 +1,5 @@
 const containerNumber = document.querySelector(".containerNumber");
 const number = document.querySelector(".number");
-console.log(number);
 const table = document.querySelector(".marks");
 const player = document.querySelector(".numerosPlayer");
 const cpu = document.querySelector(".numerosCpu");
@@ -8,11 +7,16 @@ const parrafos = document.getElementsByClassName("numeroDelCarton");
 
 const cartonPlayer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 const cartonCpu = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const numerosDeLaTabla = [];
 
 number.addEventListener("click", () => agregarNumero(generador()));
 
 function generador() {
-  const num = Math.floor(Math.random() * (91 - 1) + 1);
+  let num = Math.floor(Math.random() * (91 - 1) + 1);
+  while (numerosDeLaTabla.includes(num)) {
+    num = Math.floor(Math.random() * (91 - 1) + 1);
+  }
+  numerosDeLaTabla.push(num);
   return num;
 }
 
@@ -33,7 +37,7 @@ function numerosDeCartones(Array, carton) {
   });
 }
 function agregarNumero(numeroGenenado) {
-  const ultimoNumero = document.createElement("div");
+  const ultimoNumero = document.createElement("p");
   ultimoNumero.classList.add("numberGenerate");
   ultimoNumero.innerHTML = `
   ${numeroGenenado}`;
@@ -48,7 +52,7 @@ function agregarNumero(numeroGenenado) {
 function tacharNumeros(numeroExistente) {
   const arrayParrafos = Array.from(parrafos);
 
-  arrayParrafos.forEach(function (element) {
+  arrayParrafos.forEach((element) => {
     if (numeroExistente == element.innerHTML) {
       element.classList.remove("numeroDelCarton");
       element.classList.add("tachado");
@@ -62,11 +66,38 @@ function ganador(array, numeroGenenado, ganador) {
     array.splice(arrayGanador, 1);
   }
   if (array.length === 0) {
-    containerNumber.removeChild(number)
+    containerNumber.removeChild(number);
     containerNumber.innerHTML = `
-    <p>El ganador es ${ganador}</p>`
+    <p>El ganador es ${ganador}</p>`;
+    if (ganador == "Player") {
+      var duration = 10 * 1000;
+    var end = Date.now() + duration;
+
+    (function frame() {
+      // launch a few confetti from the left edge
+      confetti({
+        particleCount: 7,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+      });
+      // and launch a few from the right edge
+      confetti({
+        particleCount: 7,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+      });
+
+      // keep going until we are out of time
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
+    } else {
+      confetti();
+    }
   }
-  console.log(array);
 }
 
 numerosDeCartones(cartonPlayer, player);
